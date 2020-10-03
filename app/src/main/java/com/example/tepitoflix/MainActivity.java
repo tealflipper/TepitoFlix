@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
         //list of movie objects
         movieList = new ArrayList<>();
         goToAddMovie();
+
     }
 
     public void goToAddMovie(){
@@ -34,5 +35,18 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(seeMovieList,0);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                movieList = (ArrayList<Movie>) getIntent().getSerializableExtra("movieList");
+            }
+            if (resultCode == RESULT_CANCELED) {
+                Toast.makeText(this, "error", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

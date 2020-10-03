@@ -20,9 +20,11 @@ public class AddMovie extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_movie);
         //list of movie objects
-        movieList = new ArrayList<>();
+        movieList = (ArrayList<Movie>) getIntent().getSerializableExtra("movieList");
         initViewComp();
-        sendMovies();
+        returnToMain();
+        loadMovies();
+
 
 
 
@@ -38,7 +40,7 @@ public class AddMovie extends AppCompatActivity {
         price   = (EditText) findViewById(R.id.price);
     }
 
-    public void loadMovies(View view){
+    public void loadData(){
         try {
             Movie newMovie = new Movie();
             newMovie.setTitle(this.title.getText().toString());
@@ -60,24 +62,38 @@ public class AddMovie extends AppCompatActivity {
             this.year.setText("");
             price.setText("");
             Toast.makeText(this, "Pelicula agregada", Toast.LENGTH_SHORT).show();
+
         }
         catch (Exception e){
             Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void loadMovies(){
+        Button btn = (Button) findViewById(R.id.cargar);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadData();
+            }
+        });
+
+
 
 
     }
 
-    public void sendMovies(){
+    public void returnToMain(){
         Button btn = (Button) findViewById(R.id.returnMain);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Ir a visualizar peliculas
-                Intent seeMovieList = new Intent(v.getContext(), ViewMovieList.class);
+                Intent gotoMain = new Intent(v.getContext(), MainActivity.class);
                 //Exportar objeto a segunda actividad
-                seeMovieList.putExtra("movieList", movieList);
-                startActivityForResult(seeMovieList,0);
+                gotoMain.putExtra("movieList", movieList);
+                setResult(RESULT_OK, gotoMain);
+                startActivityForResult(gotoMain,0);
             }
         });
     }
