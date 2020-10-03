@@ -22,6 +22,7 @@ public class ViewMovieList extends AppCompatActivity {
         initViewComp();
         movieList = (ArrayList<Movie>) getIntent().getSerializableExtra("movieList");
         printMovieList(movieList);
+        returnToMain();
 
     }
 
@@ -33,12 +34,13 @@ public class ViewMovieList extends AppCompatActivity {
         try {
             String out="Lista de Peliculas \n\n";
             for(Movie i : movieList){
-                out=out+i.getTitle()+"\n"+
-                        i.getGenres()+"\n"+
-                        i.getLength()+" min\n"+
-                        i.getDirector()+"\n"+
-                        i.getRelease() +"\n$"
-                        +i.getPrice() + "\n\n";
+                out=out+"id: " + i.getId()+
+                        "Titulo: "+ i.getTitle()+"\n"+
+                        "Genero: "+i.getGenres()+"\n"+
+                        "Duración: "+i.getLength()+" min\n"+
+                        "Director: "+i.getDirector()+"\n"+
+                        "Estreno: "+i.getRelease() +"\n"+
+                        "Precio: $"+i.getPrice() + "\n\n";
             }
             temp.setText(out);
         }
@@ -47,13 +49,22 @@ public class ViewMovieList extends AppCompatActivity {
         }
     }
 
-    public void returnToMain(View v){
+    public void returnToMain(){
         Button btn = (Button) findViewById(R.id.returnMain);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent main = new Intent(v.getContext(), MainActivity.class);
-                startActivityForResult(main,0);
+                try {
+                    //Ir a visualizar peliculas
+                    Intent data = new Intent(v.getContext(), MainActivity.class);
+                    //Exportar objeto a segunda actividad
+                    data.putExtra("movieList", movieList);
+                    setResult(RESULT_OK, data);
+                    finish();
+                }catch (Exception e){
+                    Toast.makeText(v.getContext(), "eeeeee", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }
