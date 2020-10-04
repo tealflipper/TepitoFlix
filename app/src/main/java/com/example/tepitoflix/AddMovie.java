@@ -34,7 +34,7 @@ public class AddMovie extends AppCompatActivity {
     }
 
     public void initViewComp() {
-        movieId = (TextView) findViewById(R.id.MovieId);
+        movieId = (TextView) findViewById(R.id.header);
         title = (EditText) findViewById(R.id.title);
         genre = (EditText) findViewById(R.id.genre);
         length = (EditText) findViewById(R.id.length);

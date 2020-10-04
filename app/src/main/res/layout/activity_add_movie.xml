@@ -15,7 +15,7 @@ android:layout_height="match_parent">
 
 
         <TextView
-            android:id="@+id/MovieId"
+            android:id="@+id/header"
             android:layout_width="131dp"
             android:layout_height="39dp"
             android:layout_marginStart="143dp"
@@ -43,7 +43,7 @@ android:layout_height="match_parent">
             app:layout_constraintEnd_toStartOf="@id/title"
             app:layout_constraintHorizontal_bias="0.39"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/MovieId" />
+            app:layout_constraintTop_toTopOf="@id/header" />
 
         <TextView
             android:id="@+id/textView3"
@@ -85,7 +85,7 @@ android:layout_height="match_parent">
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/textView2"
-            app:layout_constraintTop_toBottomOf="@+id/MovieId" />
+            app:layout_constraintTop_toBottomOf="@+id/header" />
 
 
 

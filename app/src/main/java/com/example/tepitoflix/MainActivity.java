@@ -21,18 +21,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         //list of movie objects
         movieList = new ArrayList<>();
+        initViewComp();
+        goToAddMovie();
+        goToViewMovieList();
+        goToUpdateMovie();
+        goToDeleteMovie();
+    }
 
+    public void initViewComp() {
         insertMovie = (Button) findViewById(R.id.insertMovie);
         updateMovie = (Button) findViewById(R.id.updateMovie);
         viewMovies = (Button) findViewById(R.id.viewMovies);
         deleteMovie = (Button) findViewById(R.id.deleteMovie);
-
-        goToAddMovie();
-        goToViewMovieList();
-    }
-
-    public void initViewComp() {
-
     }
 
     public void goToAddMovie(){
@@ -63,27 +63,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goToUpdateMovie(){
-        viewMovies.setOnClickListener(new View.OnClickListener() {
+        updateMovie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Ir a visualizar peliculas
                 Intent goToActivity = new Intent(v.getContext(), UpdateMovie.class);
                 //Exportar objeto a segunda actividad
                 goToActivity.putExtra("movieList", movieList);
-                startActivityForResult(goToActivity,2);
+                startActivityForResult(goToActivity,3);
             }
         });
     }
 
-    public void Delete_Movie(){
-        viewMovies.setOnClickListener(new View.OnClickListener() {
+    public void goToDeleteMovie(){
+        deleteMovie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Ir a visualizar peliculas
                 Intent goToActivity = new Intent(v.getContext(), Delete_Movie.class);
                 //Exportar objeto a segunda actividad
                 goToActivity.putExtra("movieList", movieList);
-                startActivityForResult(goToActivity,2);
+                startActivityForResult(goToActivity,4);
             }
         });
     }
@@ -92,10 +92,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if ((requestCode == 1 || requestCode == 2) && resultCode == RESULT_OK) {
+        if ((requestCode == 1 || requestCode == 2
+                || requestCode == 3|| requestCode == 4) && resultCode == RESULT_OK) {
             try {
                 this.movieList = (ArrayList<Movie>) data.getSerializableExtra("movieList");
-                Toast.makeText(this, "lista" + movieList.size(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "lista" + movieList.size(),
+                        Toast.LENGTH_SHORT).show();
             }
             catch (Exception e){
                 Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
