@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".UpdateMovie"></activity>
-        <activity android:name=".Delete_Movie" />
+        <activity android:name=".DeleteMovie" />
         <activity android:name=".AddMovie" />
         <activity android:name=".ViewMovieList" />
         <activity android:name=".MainActivity">

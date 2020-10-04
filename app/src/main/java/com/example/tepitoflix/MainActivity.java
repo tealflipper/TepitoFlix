@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -80,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Ir a visualizar peliculas
-                Intent goToActivity = new Intent(v.getContext(), Delete_Movie.class);
+                Intent goToActivity = new Intent(v.getContext(), DeleteMovie.class);
                 //Exportar objeto a segunda actividad
                 goToActivity.putExtra("movieList", movieList);
                 startActivityForResult(goToActivity,4);
@@ -96,8 +94,6 @@ public class MainActivity extends AppCompatActivity {
                 || requestCode == 3|| requestCode == 4) && resultCode == RESULT_OK) {
             try {
                 this.movieList = (ArrayList<Movie>) data.getSerializableExtra("movieList");
-                Toast.makeText(this, "lista" + movieList.size(),
-                        Toast.LENGTH_SHORT).show();
             }
             catch (Exception e){
                 Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();

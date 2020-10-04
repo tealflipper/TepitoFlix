@@ -42,14 +42,18 @@ public class AddMovie extends AppCompatActivity {
         length = (EditText) findViewById(R.id.length);
         year = (EditText) findViewById(R.id.year);
         price = (EditText) findViewById(R.id.price);
-        String header = "Pelicula " + movieList.size();
+        String header = "Pelicula " +
+                (movieList.size()>0? movieList.get(movieList.size() - 1).getId()+1:0 );
         movieId.setText(header);
     }
 
     public void loadData(){
         try {
             Movie newMovie = new Movie();
-            newMovie.setId(movieList.size());
+            int id=movieList.size() > 0 ? movieList.get(movieList.size() - 1).getId()+1 : 0;
+
+
+            newMovie.setId(id);
             newMovie.setTitle(this.title.getText().toString());
             newMovie.setGenre(this.genre.getText().toString());
             newMovie.setDirector(this.director.getText().toString());
@@ -79,7 +83,7 @@ public class AddMovie extends AppCompatActivity {
     }
 
     public void loadMovies(){
-        Button btn = (Button) findViewById(R.id.cargar);
+        Button btn = (Button) findViewById(R.id.action);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

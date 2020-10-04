@@ -61,15 +61,22 @@ public class UpdateMovie extends AppCompatActivity {
 
     public void setAttributes(){
         try {
-            movieList.get(id).setTitle(this.title.getText().toString());
-            movieList.get(id).setGenre(this.genre.getText().toString());
-            movieList.get(id).setDirector(this.director.getText().toString());
+            //busca el id
+            for(Movie i : movieList){
+                if(this.id == i.getId()){
+                    updatedMovie=i;
+                }
+            }
+            updatedMovie.setTitle(this.title.getText().toString());
+            updatedMovie.setGenre(this.genre.getText().toString());
+            updatedMovie.setDirector(this.director.getText().toString());
             double aux = Double.parseDouble(this.length.getText().toString());
-            movieList.get(id).setLength(aux);
+            updatedMovie.setLength(aux);
             int year = Integer.parseInt(this.year.getText().toString());
-            movieList.get(id).setRelease(year);
+            updatedMovie.setRelease(year);
             aux = Double.parseDouble(this.price.getText().toString());
-            movieList.get(id).setPrice(aux);
+            updatedMovie.setPrice(aux);
+            movieList.set(id,updatedMovie);
             Toast.makeText(this, "Pelicula actualizada", Toast.LENGTH_SHORT).show();
         }catch (Exception e){
             Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
@@ -79,7 +86,12 @@ public class UpdateMovie extends AppCompatActivity {
     public void getAttributes(){
         try {
             id=Integer.parseInt(movieId.getText().toString());
-            updatedMovie=movieList.get(id);
+            //busca el id
+            for(Movie i : movieList){
+                if(this.id == i.getId()){
+                    updatedMovie=i;
+                }
+            }
             //show movie atributes
             title.setText(updatedMovie.getTitle().toString(), TextView.BufferType.EDITABLE);
             genre.setText(updatedMovie.getGenres().toString(),TextView.BufferType.EDITABLE);
