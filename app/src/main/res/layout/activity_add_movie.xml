@@ -107,7 +107,6 @@ android:layout_height="match_parent">
             android:id="@+id/length"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="63dp"
             android:ems="10"
@@ -183,7 +182,7 @@ android:layout_height="match_parent">
             android:layout_marginBottom="50dp"
             android:text="Precio"
             android:textSize="24sp"
-            app:layout_constraintBottom_toTopOf="@+id/cargar"
+            app:layout_constraintBottom_toTopOf="@+id/delete"
             app:layout_constraintEnd_toStartOf="@+id/price"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView6" />
@@ -227,7 +226,7 @@ android:layout_height="match_parent">
             android:text="regresar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/cargar"
+            app:layout_constraintStart_toEndOf="@+id/delete"
             app:layout_constraintTop_toBottomOf="@+id/price" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
