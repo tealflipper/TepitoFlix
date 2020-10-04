@@ -34,7 +34,7 @@ public class ViewMovieList extends AppCompatActivity {
         try {
             String out="Lista de Peliculas \n\n";
             for(Movie i : movieList){
-                out=out+"id: " + i.getId()+
+                out=out+"id: " + i.getId()+"\n"+
                         "Titulo: "+ i.getTitle()+"\n"+
                         "Genero: "+i.getGenres()+"\n"+
                         "Duración: "+i.getLength()+" min\n"+
