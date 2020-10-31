@@ -69,4 +69,6 @@ public abstract class Video implements Serializable {
         return this.price*isr;
     }
 
+    @Override
+    public abstract String toString();
 }

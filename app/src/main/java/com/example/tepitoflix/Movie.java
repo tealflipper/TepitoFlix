@@ -30,4 +30,17 @@ public class Movie extends Video {
     public void setId(int id) {
         this.id = id;
     }
+
+    @Override
+    public String toString(){
+        return "Movie{" +
+                "id='" + this.id + "\'" +
+                ", title='" + this.getTitle() + "\'"+
+                ", genres='" + this.getGenres()+"\'"+
+                ", release='"+ this.getRelease()+"\'"+
+                ", length='" + this.getLength() +"\'"+
+                ", price='" + this.getPrice() + "\'"+
+                ", director='"+this.getDirector()+"\'"+
+                "}";
+    }
 }

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TepitoFlix</string>
+    <string name="id_hint">Id de la pelicula</string>
+    <string name="titulo">Titulo</string>
 </resources>

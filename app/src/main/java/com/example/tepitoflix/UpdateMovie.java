@@ -24,7 +24,7 @@ public class UpdateMovie extends AppCompatActivity {
         movieList = (ArrayList<Movie>) getIntent().getSerializableExtra("movieList");
         initViewComp();
         lookupMovieId();
-        upDateMovieId();
+        updateMovieId();
         returnToMain();
     }
 
@@ -49,7 +49,7 @@ public class UpdateMovie extends AppCompatActivity {
         });
     }
 
-    public void upDateMovieId(){
+    public void updateMovieId(){
         Button btn = (Button) findViewById(R.id.updateMovie);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,12 +61,6 @@ public class UpdateMovie extends AppCompatActivity {
 
     public void setAttributes(){
         try {
-            //busca el id
-            for(Movie i : movieList){
-                if(this.id == i.getId()){
-                    updatedMovie=i;
-                }
-            }
             updatedMovie.setTitle(this.title.getText().toString());
             updatedMovie.setGenre(this.genre.getText().toString());
             updatedMovie.setDirector(this.director.getText().toString());

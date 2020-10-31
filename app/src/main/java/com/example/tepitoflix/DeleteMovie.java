@@ -42,22 +42,21 @@ public class DeleteMovie extends AppCompatActivity {
         });
     }
     public void delete(){
-        try {
-            id=Integer.parseInt(movieId.getText().toString());
-            Movie movieToDelete=null;
-            for(Movie i: movieList){
-                if(id == i.getId()){
-                    movieToDelete=i;
-                    break;
-                }
+        id=Integer.parseInt(movieId.getText().toString());
+        Movie movieToDelete=null;
+        for(Movie i: movieList){
+            if(id == i.getId()){
+                movieToDelete=i;
+                break;
             }
+        }
+        if(movieToDelete!=null){
             movieList.remove(movieToDelete);
             result.setText("Elemento" +id+" eliminado");
-
-        }catch (Exception e){
-            Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
         }
-
+        else{
+            result.setText("Elemento no encontrado");
+        }
     }
     public void returnToMain() {
         Button btn = (Button) findViewById(R.id.returnMain);
