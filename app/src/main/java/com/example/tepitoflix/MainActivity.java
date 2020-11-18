@@ -3,12 +3,14 @@ package com.example.tepitoflix;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.database.SQLException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
@@ -19,8 +21,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.w3c.dom.Document;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -40,7 +46,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         //list of movie objects
         movieList = new ArrayList<>();
@@ -62,10 +67,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    protected void onStop() {
+        super.onStop();
+        File fileM = new File(ContextCompat.getExternalFilesDirs(this,null)[1],
+                "movie.json");
 
+        //get movie list from database
+        //save movie list
+        FileWriter fileWriter = null;
+
+        try {
+            fileWriter = new FileWriter(fileM);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write("[ ");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        File fileS = new File(ContextCompat.getExternalFilesDirs(this,null)[1],
+                "serie.json");
+        File fileC = new File(ContextCompat.getExternalFilesDirs(this,null)[1],
+                "cd.json");
+        File fileA = new File(ContextCompat.getExternalFilesDirs(this,null)[1],
+                "artist.json");
+        File fileG = new File(ContextCompat.getExternalFilesDirs(this,null)[1],
+                "genre.json");
+        File fileD = new File(ContextCompat.getExternalFilesDirs(this,null)[1],
+                "Director.json");
     }
+
+
     public void initViewComp() {
         insertMovie = (Button) findViewById(R.id.insertMovie);
         insertMovie.setOnClickListener(this);
@@ -143,4 +174,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
+
 }
+

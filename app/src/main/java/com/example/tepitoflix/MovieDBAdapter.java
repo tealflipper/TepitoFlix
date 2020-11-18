@@ -57,6 +57,48 @@ public class MovieDBAdapter {
         return max;
     }
 
+    public boolean valGenreId(String id){
+        String[] columns = {GenreEntry.ID};
+        boolean flag=false;
+        SQLiteDatabase sqLiteDatabase = movieDBHelper.getWritableDatabase();
+        String query = "SELECT id FROM "+GenreEntry.TABLE_NAME + " WHERE id = '"+ id+"'";
+        Cursor cur = sqLiteDatabase.rawQuery(query,null);
+        if(cur.getCount()>0){
+            flag= true;
+        }
+        cur.close();
+
+        return flag;
+    }
+
+    public boolean valArtistId(String id){
+        String[] columns = {ArtistEntry.ID};
+        boolean flag=false;
+        SQLiteDatabase sqLiteDatabase = movieDBHelper.getWritableDatabase();
+        String query = "SELECT id FROM "+ArtistEntry.TABLE_NAME + " WHERE id = '"+ id+"'";
+        Cursor cur = sqLiteDatabase.rawQuery(query,null);
+        if(cur.getCount()>0){
+            flag= true;
+        }
+        cur.close();
+
+        return flag;
+    }
+
+    public boolean valDirectorId(String id){
+        String[] columns = {DirectorEntry.ID};
+        boolean flag=false;
+        SQLiteDatabase sqLiteDatabase = movieDBHelper.getWritableDatabase();
+        String query = "SELECT id FROM "+DirectorEntry.TABLE_NAME + " WHERE id = '"+ id+"'";
+        Cursor cur = sqLiteDatabase.rawQuery(query,null);
+        if(cur.getCount()>0){
+            flag= true;
+        }
+        cur.close();
+
+        return flag;
+    }
+
     public long insertMovie(Movie movie)throws SQLException {
         int i = getMaxId()+1;
         movie.setId(""+i);
@@ -240,6 +282,61 @@ public class MovieDBAdapter {
         }
         sqLiteDatabase.close();
         return series;
+    }
+
+    public ArrayList<String> getGenresId(){
+        SQLiteDatabase sqLiteDatabase = movieDBHelper.getWritableDatabase();
+        String[] columns = {
+                GenreEntry.ID
+                };
+        Cursor cursor = sqLiteDatabase.query(GenreEntry.TABLE_NAME, columns,null,
+                null,null,null,null);
+        ArrayList <String> genres = new ArrayList<>();
+
+        while (cursor.moveToNext()){
+            String id=(cursor.getString(cursor.getColumnIndex(GenreEntry.ID)));
+            genres.add(id);
+        }
+        sqLiteDatabase.close();
+        return genres;
+    }
+
+    public ArrayList<Artist> getArtists(){
+        SQLiteDatabase sqLiteDatabase = movieDBHelper.getWritableDatabase();
+        String[] columns = {
+                ArtistEntry.ID,
+                ArtistEntry.NAME
+        };
+        Cursor cursor = sqLiteDatabase.query(ArtistEntry.TABLE_NAME, columns,null,
+                null,null,null,null);
+        ArrayList <Artist> artists = new ArrayList<>();
+
+        while (cursor.moveToNext()){
+            Artist artist = new Artist();
+            artist.setId(cursor.getString(cursor.getColumnIndex(ArtistEntry.ID)));
+            artists.add(artist);
+        }
+        sqLiteDatabase.close();
+        return artists;
+    }
+
+    public ArrayList<Director> getDirectors(){
+        SQLiteDatabase sqLiteDatabase = movieDBHelper.getWritableDatabase();
+        String[] columns = {
+                DirectorEntry.ID,
+                DirectorEntry.NAME
+        };
+        Cursor cursor = sqLiteDatabase.query(DirectorEntry.TABLE_NAME, columns,null,
+                null,null,null,null);
+        ArrayList <Director> directors = new ArrayList<>();
+
+        while (cursor.moveToNext()){
+            Director director = new Director();
+            director.setId(cursor.getString(cursor.getColumnIndex(DirectorEntry.ID)));
+            directors.add(director);
+        }
+        sqLiteDatabase.close();
+        return directors;
     }
 
     public Movie searchById(String id){

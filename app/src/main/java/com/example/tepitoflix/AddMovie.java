@@ -5,9 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.database.SQLException;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -108,60 +108,103 @@ public class AddMovie extends AppCompatActivity implements View.OnClickListener{
         titleInputLayout.setBoxBackgroundMode(TextInputLayout.BOX_BACKGROUND_OUTLINE);
         titleInputLayout.setBoxCornerRadii(5, 5, 5, 5);
         title = new TextInputEditText(titleInputLayout.getContext());
+        title.setId(R.id.title);
+        title.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         titleInputLayout.addView(title);
         productLayout.addView(titleInputLayout);
-        genre = new EditText(this);
-        genre.setHint("Codigo genero (G0-G16)");
+
+        TextInputLayout genreInputLayout = new TextInputLayout(this,null,R.style.Widget_MaterialComponents_TextInputLayout_OutlinedBox);
+        genreInputLayout.setHint("Codigo genero (G0-G16)");
+        genreInputLayout.setBoxBackgroundMode(TextInputLayout.BOX_BACKGROUND_OUTLINE);
+        genreInputLayout.setBoxCornerRadii(5, 5, 5, 5);
+        genre = new TextInputEditText(genreInputLayout.getContext());
         genre.setId(R.id.genre);
-        genre.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
-        productLayout.addView(genre);
-        length = new EditText(this);
-        length.setHint("Duración (minutos)");
+        genre.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+        genreInputLayout.addView(genre);
+        productLayout.addView(genreInputLayout);
+
+        TextInputLayout lengthInputLayout = new TextInputLayout(this,null,R.style.Widget_MaterialComponents_TextInputLayout_OutlinedBox);
+        lengthInputLayout.setHint("Duracion (minutos)");
+        lengthInputLayout.setBoxBackgroundMode(TextInputLayout.BOX_BACKGROUND_OUTLINE);
+        lengthInputLayout.setBoxCornerRadii(5, 5, 5, 5);
+        length = new TextInputEditText(lengthInputLayout.getContext());
         length.setId(R.id.length);
-        length.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
-        productLayout.addView(length);
-        director = new EditText(this);
-        director.setHint("Codigo director (D0-D10)");
+        length.setInputType(InputType.TYPE_CLASS_NUMBER);
+        lengthInputLayout.addView(length);
+        productLayout.addView(lengthInputLayout);
+
+        TextInputLayout directorInputLayout = new TextInputLayout(this,null,R.style.Widget_MaterialComponents_TextInputLayout_OutlinedBox);
+        directorInputLayout.setHint("Codigo Director (D0-D10)");
+        directorInputLayout.setBoxBackgroundMode(TextInputLayout.BOX_BACKGROUND_OUTLINE);
+        directorInputLayout.setBoxCornerRadii(5, 5, 5, 5);
+        director = new TextInputEditText(directorInputLayout.getContext());
         director.setId(R.id.director);
-        director.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
-        productLayout.addView(director);
-        year = new EditText(this);
-        year.setHint("Año de estreno");
+        director.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+        directorInputLayout.addView(director);
+        productLayout.addView(directorInputLayout);
+
+        TextInputLayout yearInputLayout = new TextInputLayout(this,null,R.style.Widget_MaterialComponents_TextInputLayout_OutlinedBox);
+        yearInputLayout.setHint("Año de estreno");
+        yearInputLayout.setBoxBackgroundMode(TextInputLayout.BOX_BACKGROUND_OUTLINE);
+        yearInputLayout.setBoxCornerRadii(5, 5, 5, 5);
+        year = new TextInputEditText(yearInputLayout.getContext());
         year.setId(R.id.year);
-        year.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
-        productLayout.addView(year);
-        price = new EditText(this);
-        price.setHint("precio pelicula");
+        year.setInputType(InputType.TYPE_CLASS_NUMBER);
+        yearInputLayout.addView(year);
+        productLayout.addView(yearInputLayout);
+
+        TextInputLayout priceInputLayout = new TextInputLayout(this,null,R.style.Widget_MaterialComponents_TextInputLayout_OutlinedBox);
+        priceInputLayout.setHint("Precio (Pesos)");
+        priceInputLayout.setBoxBackgroundMode(TextInputLayout.BOX_BACKGROUND_OUTLINE);
+        priceInputLayout.setBoxCornerRadii(5, 5, 5, 5);
+        price = new TextInputEditText(priceInputLayout.getContext());
         price.setId(R.id.price);
-        price.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
-        productLayout.addView(price);
+        price.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        priceInputLayout.addView(price);
+        productLayout.addView(priceInputLayout);
 
         Button btn = (Button) findViewById(R.id.insertMovie);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadMovie();
+                boolean bool= valMovie();
+                if(bool){
+                    loadMovie();
+                }
 
             }
         });
     }
+
+    private boolean valMovie(){
+        try {
+            String gId = genre.getText().toString();
+            String aId = director.getText().toString();
+            boolean genreB = movieDBAdapter.valGenreId(gId);
+            boolean artistB = movieDBAdapter.valDirectorId(aId);
+            if(!genreB){
+                genre.setError("genero no existe");
+                return false;
+            }
+            if(!artistB){
+                director.setError("director no existe");
+                return false;
+            }
+            return true;
+        }catch (Exception e){
+            Toast.makeText(this, "Por favor rellana todos los campos", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     private void loadMovie(){
         try {
             Movie newMovie = new Movie();
             //int id=//movieList.size() > 0 ? movieList.get(movieList.size() - 1).getId()+1 : 0;
             //newMovie.setId((this.id.getText().toString()));
-            newMovie.setTitle(this.title.getText().toString());
-            newMovie.setGenre(this.genre.getText().toString());
+            newMovie.setTitle(title.getText().toString());
+            newMovie.setGenre(genre.getText().toString());
             newMovie.setDirector(this.director.getText().toString());
             int aux = Integer.parseInt(this.length.getText().toString());
             newMovie.setLength(aux);
@@ -179,7 +222,6 @@ public class AddMovie extends AppCompatActivity implements View.OnClickListener{
             }
 
             if(res>0){
-                id.setText("");
                 title.setText("");
                 genre.setText("");
                 length.setText("");
@@ -200,54 +242,63 @@ public class AddMovie extends AppCompatActivity implements View.OnClickListener{
     private void addSeries(){
         LinearLayout productLayout = findViewById(R.id.productLayout);
         productLayout.removeAllViews();
-
-        id = new EditText(this);
-        id.setHint("ID Serie");
-        id.setId(R.id.id);
-        id.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
-        title = new EditText(this);
-        title.setHint("Titulo serie");
+        TextInputLayout titleInputLayout = new TextInputLayout(this,null,R.style.Widget_MaterialComponents_TextInputLayout_OutlinedBox);
+        titleInputLayout.setHint("Titulo de la serie");
+        titleInputLayout.setBoxBackgroundMode(TextInputLayout.BOX_BACKGROUND_OUTLINE);
+        titleInputLayout.setBoxCornerRadii(5, 5, 5, 5);
+        title = new TextInputEditText(titleInputLayout.getContext());
         title.setId(R.id.title);
-        title.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
-        productLayout.addView(title);
-        genre = new EditText(this);
-        genre.setHint("Codigo genero (G0-G16)");
+        title.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+        titleInputLayout.addView(title);
+        productLayout.addView(titleInputLayout);
+
+        TextInputLayout genreInputLayout = new TextInputLayout(this,null,R.style.Widget_MaterialComponents_TextInputLayout_OutlinedBox);
+        genreInputLayout.setHint("Codigo genero (G0-G16)");
+        genreInputLayout.setBoxBackgroundMode(TextInputLayout.BOX_BACKGROUND_OUTLINE);
+        genreInputLayout.setBoxCornerRadii(5, 5, 5, 5);
+        genre = new TextInputEditText(genreInputLayout.getContext());
         genre.setId(R.id.genre);
-        genre.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
-        productLayout.addView(genre);
-        director = new EditText(this);
-        director.setHint("Codigo director (D0-D10)");
+        genre.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+        genreInputLayout.addView(genre);
+        productLayout.addView(genreInputLayout);
+
+        TextInputLayout directorInputLayout = new TextInputLayout(this,null,R.style.Widget_MaterialComponents_TextInputLayout_OutlinedBox);
+        directorInputLayout.setHint("Codigo Director (D0-D10)");
+        directorInputLayout.setBoxBackgroundMode(TextInputLayout.BOX_BACKGROUND_OUTLINE);
+        directorInputLayout.setBoxCornerRadii(5, 5, 5, 5);
+        director = new TextInputEditText(directorInputLayout.getContext());
         director.setId(R.id.director);
-        director.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
-        productLayout.addView(director);
-        year = new EditText(this);
-        year.setHint("Año de estreno");
+        director.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+        directorInputLayout.addView(director);
+        productLayout.addView(directorInputLayout);
+
+        TextInputLayout yearInputLayout = new TextInputLayout(this,null,R.style.Widget_MaterialComponents_TextInputLayout_OutlinedBox);
+        yearInputLayout.setHint("Año de estreno");
+        yearInputLayout.setBoxBackgroundMode(TextInputLayout.BOX_BACKGROUND_OUTLINE);
+        yearInputLayout.setBoxCornerRadii(5, 5, 5, 5);
+        year = new TextInputEditText(yearInputLayout.getContext());
         year.setId(R.id.year);
-        year.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
-        productLayout.addView(year);
-        price = new EditText(this);
-        price.setHint("precio Serie");
+        year.setInputType(InputType.TYPE_CLASS_NUMBER);
+        yearInputLayout.addView(year);
+        productLayout.addView(yearInputLayout);
+
+        TextInputLayout priceInputLayout = new TextInputLayout(this,null,R.style.Widget_MaterialComponents_TextInputLayout_OutlinedBox);
+        priceInputLayout.setHint("Precio (Pesos)");
+        priceInputLayout.setBoxBackgroundMode(TextInputLayout.BOX_BACKGROUND_OUTLINE);
+        priceInputLayout.setBoxCornerRadii(5, 5, 5, 5);
+        price = new TextInputEditText(priceInputLayout.getContext());
         price.setId(R.id.price);
-        price.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
-        productLayout.addView(price);
+        price.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        priceInputLayout.addView(price);
+        productLayout.addView(priceInputLayout);
 
         Button btn = (Button) findViewById(R.id.insertMovie);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadSeries();
+                if (valMovie()){
+                    loadSeries();
+                }
 
             }
         });
@@ -275,11 +326,9 @@ public class AddMovie extends AppCompatActivity implements View.OnClickListener{
             }
 
             if(res>0){
-                id.setText("");
                 title.setText("");
                 genre.setText("");
                 director.setText("");
-                length.setText("");
                 this.year.setText("");
                 price.setText("");
                 Toast.makeText(this, "Serie agregada", Toast.LENGTH_SHORT).show();
@@ -296,64 +345,90 @@ public class AddMovie extends AppCompatActivity implements View.OnClickListener{
     private void addCD(){
         LinearLayout productLayout = findViewById(R.id.productLayout);
         productLayout.removeAllViews();
-
-        TextInputLayout textInputLayout = new TextInputLayout(this,null,R.style.Widget_MaterialComponents_TextInputLayout_OutlinedBox);
-        textInputLayout.setHint("Titulo CD");
-        textInputLayout.setBoxBackgroundMode(TextInputLayout.BOX_BACKGROUND_OUTLINE);
-        textInputLayout.setBoxCornerRadii(5, 5, 5, 5);
-        title = new TextInputEditText(textInputLayout.getContext());
-        textInputLayout.addView(title);
-        productLayout.addView(textInputLayout);
+        TextInputLayout titleInputLayout = new TextInputLayout(this,null,R.style.Widget_MaterialComponents_TextInputLayout_OutlinedBox);
+        titleInputLayout.setHint("Titulo Pelicula");
+        titleInputLayout.setBoxBackgroundMode(TextInputLayout.BOX_BACKGROUND_OUTLINE);
+        titleInputLayout.setBoxCornerRadii(5, 5, 5, 5);
+        title = new TextInputEditText(titleInputLayout.getContext());
+        title.setId(R.id.title);
+        title.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+        titleInputLayout.addView(title);
+        productLayout.addView(titleInputLayout);
 
         TextInputLayout genreInputLayout = new TextInputLayout(this,null,R.style.Widget_MaterialComponents_TextInputLayout_OutlinedBox);
-        textInputLayout.setHint("Titulo CD");
-        textInputLayout.setBoxBackgroundMode(TextInputLayout.BOX_BACKGROUND_OUTLINE);
-        textInputLayout.setBoxCornerRadii(5, 5, 5, 5);
-
-        genre = new EditText(this);
-        genre.setHint("Codigo genero (G0-G16)");
+        genreInputLayout.setHint("Codigo genero (G0-G16)");
+        genreInputLayout.setBoxBackgroundMode(TextInputLayout.BOX_BACKGROUND_OUTLINE);
+        genreInputLayout.setBoxCornerRadii(5, 5, 5, 5);
+        genre = new TextInputEditText(genreInputLayout.getContext());
         genre.setId(R.id.genre);
-        genre.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
-        productLayout.addView(genre);
-        artist = new EditText(this);
-        artist.setHint("Codigo artista (A0-A17)");
+        genre.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+        genreInputLayout.addView(genre);
+        productLayout.addView(genreInputLayout);
+
+        TextInputLayout artistInputLayout = new TextInputLayout(this,null,R.style.Widget_MaterialComponents_TextInputLayout_OutlinedBox);
+        artistInputLayout.setHint("Codigo Artista (A0-A17)");
+        artistInputLayout.setBoxBackgroundMode(TextInputLayout.BOX_BACKGROUND_OUTLINE);
+        artistInputLayout.setBoxCornerRadii(5, 5, 5, 5);
+        artist = new TextInputEditText(artistInputLayout.getContext());
         artist.setId(R.id.artist);
-        artist.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
-        productLayout.addView(artist);
-        year = new EditText(this);
-        year.setHint("Año de estreno");
+        artist.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+        artistInputLayout.addView(artist);
+        productLayout.addView(artistInputLayout);
+
+        TextInputLayout yearInputLayout = new TextInputLayout(this,null,R.style.Widget_MaterialComponents_TextInputLayout_OutlinedBox);
+        yearInputLayout.setHint("Año de estreno");
+        yearInputLayout.setBoxBackgroundMode(TextInputLayout.BOX_BACKGROUND_OUTLINE);
+        yearInputLayout.setBoxCornerRadii(5, 5, 5, 5);
+        year = new TextInputEditText(yearInputLayout.getContext());
         year.setId(R.id.year);
-        year.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
-        productLayout.addView(year);
-        price = new EditText(this);
-        price.setHint("precio CD");
+        year.setInputType(InputType.TYPE_CLASS_NUMBER);
+        yearInputLayout.addView(year);
+        productLayout.addView(yearInputLayout);
+
+        TextInputLayout priceInputLayout = new TextInputLayout(this,null,R.style.Widget_MaterialComponents_TextInputLayout_OutlinedBox);
+        priceInputLayout.setHint("Precio (Pesos)");
+        priceInputLayout.setBoxBackgroundMode(TextInputLayout.BOX_BACKGROUND_OUTLINE);
+        priceInputLayout.setBoxCornerRadii(5, 5, 5, 5);
+        price = new TextInputEditText(priceInputLayout.getContext());
         price.setId(R.id.price);
-        price.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
-        productLayout.addView(price);
+        price.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        priceInputLayout.addView(price);
+        productLayout.addView(priceInputLayout);
+
 
         Button btn = (Button) findViewById(R.id.insertMovie);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadCD();
+                if(valCD()){
+                    loadCD();
+                }
 
             }
         });
     }
 
+    private boolean valCD(){
+        String gId = genre.getText().toString();
+        String aId = artist.getText().toString();
+        boolean genreB = movieDBAdapter.valGenreId(gId);
+        boolean artistB = movieDBAdapter.valArtistId(aId);
+        if(!genreB){
+            genre.setError("genero no existe");
+            return false;
+        }
+        if(!artistB){
+            artist.setError("artista no existe");
+            return false;
+        }
+        return true;
+    }
+
+
+
     private void loadCD(){
         try {
             CD cd = new CD();
-            //int id=//movieList.size() > 0 ? movieList.get(movieList.size() - 1).getId()+1 : 0;
-            cd.setId((this.id.getText().toString()));
             cd.setTitle(this.title.getText().toString());
             cd.setGenre(this.genre.getText().toString());
             cd.setArtist(this.artist.getText().toString());
@@ -385,149 +460,7 @@ public class AddMovie extends AppCompatActivity implements View.OnClickListener{
             Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
         }
     }
-/*
-    public void loadData(){
-        try {
-            Movie newMovie = new Movie();
-            //int id=//movieList.size() > 0 ? movieList.get(movieList.size() - 1).getId()+1 : 0;
-            newMovie.setId((this.id.getText().toString()));
-            newMovie.setTitle(this.title.getText().toString());
-            newMovie.setGenre(this.genre.getText().toString());
-            newMovie.setDirector(this.director.getText().toString());
-            int aux = Integer.parseInt(this.length.getText().toString());
-            newMovie.setLength(aux);
-            int year= Integer.parseInt(this.year.getText().toString());
-            newMovie.setYear(year);
-            double dd = Double.parseDouble(this.price.getText().toString());
-            newMovie.setPrice(dd);
-            //add new movie to list
-            movieList.add(newMovie);
-            id.setText("");
-            title.setText("");
-            genre.setText("");
-            length.setText("");
-            director.setText("");
-            length.setText("");
-            this.year.setText("");
-            price.setText("");
-            Toast.makeText(this, "Pelicula agregada", Toast.LENGTH_SHORT).show();
 
-        }
-        catch (Exception e){
-            Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private boolean validateId(String id){
-        Pattern expRegPat = Pattern.compile("^[0-9]+$");
-        if(!expRegPat.matcher(id).matches() || id.length() != 12) {
-            this.id.setError("Id invalido (12 digitos)");
-            return false;
-        }else {
-            this.id.setError(null);
-            this.title.setError("Id ya existe");
-        }
-        return true;
-    }
-    private boolean validateTitle(String title){
-        Pattern expRegPat = Pattern.compile("^[a-zA-Z0-9ñáéíóúüÁÉÍÓÚÜ ]+$");
-        if(!expRegPat.matcher(title).matches() || title.length() > 45) {
-            this.title.setError("Titulo invalido");
-            return false;
-        }else {
-            this.title.setError(null);
-        }
-
-        //check if title exist
-        /*TODO check in database
-        int idLocal = Integer.parseInt(this.id.getText().toString());
-        //busca el id
-        for(Movie i : movieList){
-            if(idLocal == i.getId()){
-                return false;
-            }
-        }
-
-        return true;
-    }
-    private boolean validateGenre(String gen){
-        Pattern expRegPat = Pattern.compile("^[a-zA-ZñáéíóúüÁÉÍÓÚÜ ]+$");
-        if(!expRegPat.matcher(gen).matches() || gen.length() > 20) {
-            this.genre.setError("Genero invalido");
-            return false;
-        }else {
-            this.genre.setError(null);
-        }
-        return true;
-    }
-
-    private boolean validateLength(String length){
-        Pattern expRegPat = Pattern.compile("^[0-9]+$");
-        if(!expRegPat.matcher(length).matches() || length.length() > 3) {
-            this.length.setError("Duración invalida");
-            return false;
-        }else {
-            this.length.setError(null);
-        }
-        return true;
-    }
-
-    private boolean validateDirector(String dir){
-        Pattern expRegPat = Pattern.compile("^[a-zA-Z ]+$");
-        if(!expRegPat.matcher(dir).matches() || dir.length() > 20) {
-            this.director.setError("Director invalido");
-            return false;
-        }else {
-            this.director.setError(null);
-        }
-        return true;
-    }
-
-    private boolean validateYear(String year){
-        Pattern expRegPat = Pattern.compile("^[0-9]+$");
-        if(!expRegPat.matcher(year).matches() || year.length() != 4) {
-            this.year.setError("Año invalido");
-            return false;
-        }else {
-            this.year.setError(null);
-        }
-        return true;
-    }
-
-
-    private boolean validatePrice(String price){
-        Pattern expRegPat = Pattern.compile("^([0-9]{0,4}((.)[0-9]{0,2}))$");
-        if(!expRegPat.matcher(price).matches()) {
-            this.price.setError("precio invalido");
-            return false;
-        }else {
-            this.price.setError(null);
-        }
-        return true;
-    }
-    private boolean validateMovie(){
-        return validateId(this.id.getText().toString())
-            && validateTitle(this.title.getText().toString())
-            && validateGenre(this.genre.getText().toString())
-            && validateLength(this.length.getText().toString())
-            && validateDirector(this.director.getText().toString())
-            && validateYear(this.year.getText().toString())
-            && validatePrice(this.price.getText().toString());
-    }
-
-    public void loadMovies(){
-        Button btn = (Button) findViewById(R.id.insertMovie);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(validateMovie()){
-                    loadData();
-                }
-
-            }
-        });
-    }
-*/
     public void returnToMain(){
         Button btn = (Button) findViewById(R.id.returnMain);
         btn.setOnClickListener(new View.OnClickListener() {
