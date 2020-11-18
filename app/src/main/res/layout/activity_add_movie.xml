@@ -6,184 +6,92 @@
     android:layout_width="match_parent"
     android:id="@+id/layout"
     android:layout_height="match_parent"
+
     tools:context=".AddMovie">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
         >
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/pass0"
-            android:layout_width="300dp"
+        <RadioGroup
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="30dp"
-            android:hint="ID"
-            app:counterEnabled="true"
-            app:counterMaxLength="12"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/radioGroup"
+            android:gravity="center">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Serie"
+                    android:id="@+id/serieRadio"
+                    android:checked="false"
+                    android:textSize="25dp"
+                    android:paddingRight="10dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"/>
+                <RadioButton
+                    android:id="@+id/movieRadio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="Pelicula"
+                    android:textSize="25dp"
+                    android:paddingRight="10dp"
+                    android:layout_toEndOf="@id/serieRadio"/>
+                <RadioButton
+                    android:id="@+id/cdRadio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="CD"
+                    android:textSize="25dp"
+                    android:paddingRight="10dp"
+                    android:layout_toEndOf="@id/movieRadio"/>
 
-            >
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/id"
-                android:layout_width="match_parent"
+            </RelativeLayout>
+
+
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_below="@id/radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/productLayout"
+            android:orientation="vertical"
+            android:gravity="center">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_below="@id/productLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="100dp"
+            android:gravity="center">
+            <Button
+                android:id="@+id/insertMovie"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:digits="1234567890"
-                android:inputType="number"
+                android:gravity="center"
+                android:text="Insertar"
                 />
-        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/pass1"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="20dp"
-            android:hint="Titulo"
-            app:counterEnabled="true"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/pass0"
-
-            >
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@id/title"
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/returnMain"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="Regresar"
                 />
-        </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/pass2"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="20dp"
-            android:hint="Genero"
-            app:counterEnabled="true"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pass1"
 
-            >
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@id/genre"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/pass3"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="20dp"
-            android:hint="Duración (minutos)"
-            app:counterEnabled="true"
-            app:counterMaxLength="3"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pass2"
+    </RelativeLayout>
 
-            >
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@id/length"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:digits="1234567890"
-                android:inputType="number"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/pass4"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="20dp"
-            android:hint="Director"
-            app:counterEnabled="true"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pass3"
-
-            >
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@id/director"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/pass5"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="20dp"
-            android:hint="Año de estreno (AAAA)"
-            app:counterEnabled="true"
-            app:counterMaxLength="4"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pass4"
-            >
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@id/year"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:digits="1234567890"
-                android:inputType="number"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/pass6"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="20dp"
-            android:hint="Precio (pesos)"
-            app:counterEnabled="true"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pass5"
-            >
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@id/price"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:digits="1234567890."
-                android:inputType="numberDecimal"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <Button
-            android:id="@+id/insertMovie"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="30dp"
-            android:text="Insertar"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pass6"
-
-            />
-        <Button
-            android:id="@+id/returnMain"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginTop="30dp"
-            android:text="Regresar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pass6"
-
-            />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

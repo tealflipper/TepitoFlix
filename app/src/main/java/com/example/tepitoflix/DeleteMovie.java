@@ -16,7 +16,7 @@ public class DeleteMovie extends AppCompatActivity {
     private ArrayList<Movie> movieList;
     private EditText movieId;
     private TextView result;
-    int id;
+    String id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +42,7 @@ public class DeleteMovie extends AppCompatActivity {
         });
     }
     public void delete(){
-        id=Integer.parseInt(movieId.getText().toString());
+        id=movieId.getText().toString();
         Movie movieToDelete=null;
         for(Movie i: movieList){
             if(id == i.getId()){

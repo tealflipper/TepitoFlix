@@ -9,10 +9,10 @@
     android:paddingTop="50dp"
     >
 
-    <TextView android:id="@+id/head"
-        android:layout_width="150dp"
-        android:layout_height="90dp"
-        android:text="TepitoFlix"
+    <ImageView android:id="@+id/head"
+        android:src="@drawable/tepitoflix"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textSize="30sp"
         />
@@ -34,13 +34,19 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Ver peliculas"
+        android:text="Visualizar"
         />
-    <Button android:id="@+id/saveMovies"
+    <Button android:id="@+id/deleteMovie"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Guardar"
+        android:text="Eliminar"
+        />
+    <Button android:id="@+id/updateMovie"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Actualizar"
         />
 
 </LinearLayout>

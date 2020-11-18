@@ -16,7 +16,7 @@ public class UpdateMovie extends AppCompatActivity {
     private ArrayList<Movie> movieList;
     private EditText title, genre, length, director, year, price, movieId;
     Movie updatedMovie;
-    int id;
+    String id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,13 +64,14 @@ public class UpdateMovie extends AppCompatActivity {
             updatedMovie.setTitle(this.title.getText().toString());
             updatedMovie.setGenre(this.genre.getText().toString());
             updatedMovie.setDirector(this.director.getText().toString());
-            double aux = Double.parseDouble(this.length.getText().toString());
+            int aux = Integer.parseInt(this.length.getText().toString());
             updatedMovie.setLength(aux);
             int year = Integer.parseInt(this.year.getText().toString());
-            updatedMovie.setRelease(year);
-            aux = Double.parseDouble(this.price.getText().toString());
-            updatedMovie.setPrice(aux);
-            movieList.set(id,updatedMovie);
+            updatedMovie.setYear(year);
+            double aux1 = Double.parseDouble(this.price.getText().toString());
+            updatedMovie.setPrice(aux1);
+            //Todo replace movie in database
+            //movieList.set(id,updatedMovie);
             Toast.makeText(this, "Pelicula actualizada", Toast.LENGTH_SHORT).show();
         }catch (Exception e){
             Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
@@ -79,7 +80,7 @@ public class UpdateMovie extends AppCompatActivity {
 
     public void getAttributes(){
         try {
-            id=Integer.parseInt(movieId.getText().toString());
+            id=movieId.getText().toString();
             //busca el id
             for(Movie i : movieList){
                 if(this.id == i.getId()){
@@ -88,11 +89,11 @@ public class UpdateMovie extends AppCompatActivity {
             }
             //show movie atributes
             title.setText(updatedMovie.getTitle().toString(), TextView.BufferType.EDITABLE);
-            genre.setText(updatedMovie.getGenres().toString(),TextView.BufferType.EDITABLE);
+            genre.setText(updatedMovie.getGenre().toString(),TextView.BufferType.EDITABLE);
             length.setText(""+updatedMovie.getLength(), TextView.BufferType.EDITABLE);
             director.setText(updatedMovie.getDirector().toString(), TextView.BufferType.EDITABLE);
             length.setText(""+updatedMovie.getLength(), TextView.BufferType.EDITABLE);
-            year.setText(""+updatedMovie.getRelease(), TextView.BufferType.EDITABLE);
+            year.setText(""+updatedMovie.getYear(), TextView.BufferType.EDITABLE);
             price.setText(""+updatedMovie.getPrice(), TextView.BufferType.EDITABLE);
         }catch (Exception e){
             Toast.makeText(this, "Pelicula no encontrada", Toast.LENGTH_SHORT).show();
