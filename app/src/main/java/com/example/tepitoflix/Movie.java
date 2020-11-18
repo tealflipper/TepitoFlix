@@ -33,12 +33,12 @@ public class Movie extends Media {
 
     @Override
     public String toString(){
-        return "\n\tID= " + this.getId() + "\n" +
+        return "\n" + this.getId()  +
                 "\n \tTITULO: "    + this.getTitle()   + "\n" +
                 " \tGENERO: "    + this.getGenre()  + "\n" +
-                " \tDURACIÓN: "  + this.getLength()  + "\n" +
+                " \tDURACIÓN: "  + this.getLength()  + " min\n" +
                 " \tDIRECTOR: "  + this.getDirector() + "\n" +
                 " \tAÑO: "       + this.getYear()    + "\n" +
-                " \tPRECIO: "    + this.getPrice()   + "\n" ;
+                " \tPRECIO: $"    + this.getPrice()   + "\n" ;
     }
 }

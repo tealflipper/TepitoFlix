@@ -4,18 +4,22 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 
 public class DeleteMovie extends AppCompatActivity {
     private ArrayList<Movie> movieList;
-    private EditText movieId;
-    private TextView result;
+    private TextInputEditText movieId;
     String id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +32,7 @@ public class DeleteMovie extends AppCompatActivity {
     }
 
     public void initViewComp(){
-        movieId = (EditText) findViewById(R.id.movieId);
-        result  = (TextView) findViewById(R.id.result);
+        movieId = (TextInputEditText) findViewById(R.id.movieId);
     }
 
     public void deleteMovieId(){
@@ -37,26 +40,20 @@ public class DeleteMovie extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                delete();
+                id=movieId.getText().toString();
+                MovieDBAdapter movieDBAdapter =new MovieDBAdapter(DeleteMovie.this);
+                int res = movieDBAdapter.deleteById(id);
+                if(res == 0){
+                    Toast.makeText(DeleteMovie.this, "Producto no existe",
+                            Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(DeleteMovie.this, "Producto eliminado",
+                            Toast.LENGTH_SHORT).show();
+                }
+                movieId.setText("");
+
             }
         });
-    }
-    public void delete(){
-        id=movieId.getText().toString();
-        Movie movieToDelete=null;
-        for(Movie i: movieList){
-            if(id == i.getId()){
-                movieToDelete=i;
-                break;
-            }
-        }
-        if(movieToDelete!=null){
-            movieList.remove(movieToDelete);
-            result.setText("Elemento" +id+" eliminado");
-        }
-        else{
-            result.setText("Elemento no encontrado");
-        }
     }
     public void returnToMain() {
         Button btn = (Button) findViewById(R.id.returnMain);

@@ -23,12 +23,12 @@ public class Serie extends Media{
 
     @Override
     public String toString(){
-        return "\n\tID= " + this.getId() + "\n" +
+        return "\n" + this.getId() +
                 "\n \tTITULO: "    + this.getTitle()   + "\n" +
                 " \tGENERO: "    + this.getGenre()  + "\n" +
                 " \tDIRECTOR: "  + this.getDirector()+ "\n" +
                 " \tAÑO: "       + this.getYear()    + "\n" +
-                " \tPRECIO: "    + this.getPrice()   + "\n" ;
+                " \tPRECIO: $"    + this.getPrice()   + "\n" ;
     }
 }
 

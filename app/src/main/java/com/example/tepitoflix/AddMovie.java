@@ -20,7 +20,6 @@ import java.util.ArrayList;
 
 public class AddMovie extends AppCompatActivity implements View.OnClickListener{
 
-    private RadioGroup productGroup;
     private RadioButton movieRadio, serieRadio, cdRadio;
     private ArrayList<Movie> movieList;
     private Button returnMain,insertMovie;
@@ -47,7 +46,6 @@ public class AddMovie extends AppCompatActivity implements View.OnClickListener{
     }
 
     public void initViewComp() {
-        productGroup = findViewById(R.id.radioGroup);
         movieRadio = findViewById(R.id.movieRadio);
         movieRadio.setOnClickListener(this);
         serieRadio = findViewById(R.id.serieRadio);
@@ -60,15 +58,6 @@ public class AddMovie extends AppCompatActivity implements View.OnClickListener{
         insertMovie = findViewById(R.id.insertMovie);
         insertMovie.setOnClickListener(this);
 
-
-        /*
-        id = (EditText) findViewById(R.id.id);
-        title = (EditText) findViewById(R.id.title);
-        genre = (EditText) findViewById(R.id.genre);
-        length = (EditText) findViewById(R.id.length);
-        director = (EditText) findViewById(R.id.director);
-        year = (EditText) findViewById(R.id.year);
-        price = (EditText) findViewById(R.id.price);*/
     }
 
     @Override
@@ -92,7 +81,6 @@ public class AddMovie extends AppCompatActivity implements View.OnClickListener{
                 addCD();
                 break;
             case R.id.returnMain:
-                Intent data = new Intent(v.getContext(), MainActivity.class);
                 finish();
                 break;
             default:

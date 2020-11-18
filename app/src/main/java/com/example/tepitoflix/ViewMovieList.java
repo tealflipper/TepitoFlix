@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -21,32 +22,65 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class ViewMovieList extends AppCompatActivity {
-
+public class ViewMovieList extends AppCompatActivity implements View.OnClickListener {
+    private MovieDBAdapter movieDBAdapter;
+    private RadioButton movieRadio, serieRadio, cdRadio;
+    private Button returnMain;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        movieDBAdapter = new MovieDBAdapter(this);
         setContentView(R.layout.activity_view_movie_list);
-        try {
-            printMovieList();
-        }catch (JSONException e){
-            Toast.makeText(getApplicationContext(), "Error en formato JSON"+e.toString(), Toast.LENGTH_LONG).show();
-        }
-
-        returnToMain();
+        initViewComp();
 
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.movieRadio:
+                cdRadio.setChecked(false);
+                serieRadio.setChecked(false);
+                printMovieList();
+                break;
+
+            case R.id.serieRadio:
+                movieRadio.setChecked(false);
+                cdRadio.setChecked(false);
+                printSerieList();
+                break;
+
+            case R.id.cdRadio:
+                movieRadio.setChecked(false);
+                serieRadio.setChecked(false);
+                printCDList();
+                break;
+            case R.id.returnMain:
+                finish();
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void initViewComp() {
+        movieRadio = findViewById(R.id.movieRadio);
+        movieRadio.setOnClickListener(this);
+        serieRadio = findViewById(R.id.serieRadio);
+        serieRadio.setOnClickListener(this);
+        cdRadio = findViewById(R.id.cdRadio);
+        cdRadio.setOnClickListener(this);
+
+        returnMain = findViewById(R.id.returnMain);
+        returnMain.setOnClickListener(this);
+    }
 
 
-    public void printMovieList() throws JSONException{
-        String stringMovies = getIntent().getStringExtra("jsonMovies");
-        JSONArray jsonMovies = new JSONArray(stringMovies);
-        ArrayList<String> movies = new ArrayList<String>();
-
-        for(int i = 0; i< jsonMovies.length(); i++){
-            JSONObject jsonMovie = jsonMovies.getJSONObject(i);
-            movies.add(jsonMovie.toString(2));
+    public void printMovieList(){
+        ArrayList<Movie> movieArrayList = movieDBAdapter.getMovies();
+        ArrayList<String> movies = new ArrayList<>();
+        for (Movie movie: movieArrayList){
+            movies.add(movie.toString());
         }
 
         ArrayAdapter<String> adapterMovie = new ArrayAdapter<String>(this,
@@ -55,23 +89,30 @@ public class ViewMovieList extends AppCompatActivity {
         listViewMovies.setAdapter(adapterMovie);
     }
 
+    public void printSerieList(){
+        ArrayList<Serie> movieArrayList = movieDBAdapter.getSeries();
+        ArrayList<String> strings = new ArrayList<>();
+        for (Serie serie: movieArrayList){
+            strings.add(serie.toString());
+        }
 
-
-    public void returnToMain(){
-        Button btn = (Button) findViewById(R.id.returnMain);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    //Ir a visualizar peliculas
-                    Intent data = new Intent(v.getContext(), MainActivity.class);
-                    setResult(RESULT_OK, data);
-                    finish();
-                }catch (Exception e){
-                    Toast.makeText(v.getContext(), "eeeeee", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });
+        ArrayAdapter<String> adapterMovie = new ArrayAdapter<String>(this,
+                R.layout.movie_list, strings);
+        ListView listViewMovies = (ListView) findViewById(R.id.listview);
+        listViewMovies.setAdapter(adapterMovie);
     }
+
+    public void printCDList(){
+        ArrayList<CD> movieArrayList = movieDBAdapter.getCD();
+        ArrayList<String> strings = new ArrayList<>();
+        for (CD cd: movieArrayList){
+            strings.add(cd.toString());
+        }
+
+        ArrayAdapter<String> adapterMovie = new ArrayAdapter<String>(this,
+                R.layout.movie_list, strings);
+        ListView listViewMovies = (ListView) findViewById(R.id.listview);
+        listViewMovies.setAdapter(adapterMovie);
+    }
+
 }

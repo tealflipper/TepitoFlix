@@ -1,38 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ViewMovieList">
-
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+    android:orientation="vertical">
+    <RadioGroup
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Películas:"
-        android:textStyle="bold"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
-        android:padding="2dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        android:id="@+id/radioGroup"
+        android:gravity="center">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Serie"
+                android:id="@+id/serieRadio"
+                android:checked="false"
+                android:textSize="25dp"
+                android:paddingRight="10dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"/>
+            <RadioButton
+                android:id="@+id/movieRadio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="Pelicula"
+                android:textSize="25dp"
+                android:paddingRight="10dp"
+                android:layout_toEndOf="@id/serieRadio"/>
+            <RadioButton
+                android:id="@+id/cdRadio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="CD"
+                android:textSize="25dp"
+                android:paddingRight="10dp"
+                android:layout_toEndOf="@id/movieRadio"/>
+
+        </RelativeLayout>
+
+
+    </RadioGroup>
 
    <LinearLayout
        android:layout_width="match_parent"
-       android:layout_height="400dp"
-       android:orientation="vertical"
-       app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toBottomOf="@+id/textView">
-
+       android:layout_height="wrap_content"
+       android:orientation="vertical">
        <ListView
-
            android:layout_marginTop="10dp"
+           android:layout_marginStart="20dp"
+           android:layout_marginEnd="20dp"
            android:id="@+id/listview"
            android:layout_width="match_parent"
-           android:layout_height="match_parent">
+           android:layout_height="500dp">
 
        </ListView>
 
@@ -50,5 +78,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>

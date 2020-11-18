@@ -384,6 +384,36 @@ public class MovieDBAdapter {
         return id;
     }
 
+    public int deleteById(String id) {
+        String []args = {id};
+        int result;
+        SQLiteDatabase sqLiteDatabase = movieDBHelper.getWritableDatabase();
+        result = sqLiteDatabase.delete(MovieEntry.TABLE_NAME, MovieEntry.ID+
+                " = ?", args);
+        if(result == 0){
+            result = sqLiteDatabase.delete(SerieEntry.TABLE_NAME,SerieEntry.ID+
+                    " = ?", args);
+            if (result == 0 ){
+                result = sqLiteDatabase.delete(CDEntry.TABLE_NAME, CDEntry.ID+
+                        " = ?", args);
+            if (result > 0){
+                sqLiteDatabase.close();
+                return 1;
+            }
+            }else {
+                sqLiteDatabase.close();
+                return 1;
+            }
+        }else {
+            sqLiteDatabase.close();
+            return 1;
+        }
+        sqLiteDatabase.close();
+        return 0;
+
+
+    }
+
     public void dropMovie() throws SQLException{
         SQLiteDatabase sqLiteDatabase = movieDBHelper.getWritableDatabase();
         sqLiteDatabase.delete(MovieEntry.TABLE_NAME,"",null);

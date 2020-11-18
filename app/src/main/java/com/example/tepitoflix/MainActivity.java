@@ -3,14 +3,12 @@ package com.example.tepitoflix;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.database.SQLException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
