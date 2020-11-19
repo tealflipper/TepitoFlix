@@ -2,7 +2,7 @@ package com.example.tepitoflix;
 
 import java.io.Serializable;
 
-public abstract class Media implements Serializable {
+public class Media implements Serializable {
     private String id;
     private String  title;
     private String  genre;
@@ -60,7 +60,7 @@ public abstract class Media implements Serializable {
         this.price = price;
     }
 
-
-    @Override
-    public abstract String toString();
+    public String toString(){
+        return null;
+    }
 }

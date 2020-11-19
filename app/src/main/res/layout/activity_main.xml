@@ -17,8 +17,9 @@
         android:textSize="30sp"
         />
     <TextView android:id="@+id/text1"
-        android:layout_width="150dp"
-        android:layout_height="45dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?android:textAppearancePopupMenuHeader"
         android:layout_gravity="center"
         android:text="Opciones"
         android:textSize="30sp"
@@ -27,22 +28,26 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        style="?android:buttonBarButtonStyle"
         android:text="Insertar"
 
         />
     <Button android:id="@+id/viewMovies"
         android:layout_width="150dp"
+        style="?android:buttonBarButtonStyle"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Visualizar"
         />
     <Button android:id="@+id/deleteMovie"
+        style="?android:buttonBarButtonStyle"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Eliminar"
         />
     <Button android:id="@+id/updateMovie"
+        style="?android:buttonBarButtonStyle"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

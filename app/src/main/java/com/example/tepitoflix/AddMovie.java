@@ -32,7 +32,6 @@ public class AddMovie extends AppCompatActivity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_movie);
-        //list of movie objects
         movieDBAdapter = new MovieDBAdapter(this);
         movieList = (ArrayList<Movie>) getIntent().getSerializableExtra("movieList");
         initViewComp();
@@ -329,7 +328,6 @@ public class AddMovie extends AppCompatActivity implements View.OnClickListener{
         }
     }
 
-
     private void addCD(){
         LinearLayout productLayout = findViewById(R.id.productLayout);
         productLayout.removeAllViews();
@@ -412,8 +410,6 @@ public class AddMovie extends AppCompatActivity implements View.OnClickListener{
         return true;
     }
 
-
-
     private void loadCD(){
         try {
             CD cd = new CD();
@@ -461,6 +457,5 @@ public class AddMovie extends AppCompatActivity implements View.OnClickListener{
             }
         });
     }
-
 
 }

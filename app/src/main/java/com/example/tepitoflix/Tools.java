@@ -95,8 +95,8 @@ public class Tools {
     /*
      * Writes contents of ArrayList to file in JSON format
      * */
-    public static void saveMovieJSONFile(File movieFile, ArrayList<Movie> movieList) throws IOException {
-        FileWriter fileWriter = new FileWriter(movieFile);
+    public static void saveToMoviesJSONFile(File file, ArrayList<Movie> movieList) throws IOException, JSONException {
+        FileWriter fileWriter = new FileWriter(file);
         BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
         bufferedWriter.write("[ ");
         for(Movie m:movieList){
@@ -112,7 +112,7 @@ public class Tools {
             } catch (JSONException e){
                 e.printStackTrace();
             }
-            String stringMovie = jsonMovie.toString();
+            String stringMovie = jsonMovie.toString(2);
             bufferedWriter.write(stringMovie);
             if (m.getId()!= movieList.get(movieList.size()-1).getId()){
                 bufferedWriter.write(",");
@@ -123,7 +123,7 @@ public class Tools {
         bufferedWriter.close();
     }
 
-    public static void saveSerieJSONFile(File movieFile, ArrayList<Serie> movieList) throws IOException {
+    public static void saveSerieJSONFile(File movieFile, ArrayList<Serie> movieList) throws IOException, JSONException {
         FileWriter fileWriter = new FileWriter(movieFile);
         BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
         bufferedWriter.write("[ ");
@@ -139,7 +139,7 @@ public class Tools {
             } catch (JSONException e){
                 e.printStackTrace();
             }
-            String stringMovie = jsonMovie.toString();
+            String stringMovie = jsonMovie.toString(2);
             bufferedWriter.write(stringMovie);
             if (m.getId()!= movieList.get(movieList.size()-1).getId()){
                 bufferedWriter.write(",");
@@ -150,7 +150,7 @@ public class Tools {
         bufferedWriter.close();
     }
 
-    public static void saveCDJSONFile(File movieFile, ArrayList<CD> movieList) throws IOException {
+    public static void saveCDJSONFile(File movieFile, ArrayList<CD> movieList) throws IOException, JSONException {
         FileWriter fileWriter = new FileWriter(movieFile);
         BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
         bufferedWriter.write("[ ");
@@ -166,7 +166,7 @@ public class Tools {
             } catch (JSONException e){
                 e.printStackTrace();
             }
-            String stringMovie = jsonMovie.toString();
+            String stringMovie = jsonMovie.toString(2);
             bufferedWriter.write(stringMovie);
             if (m.getId()!= movieList.get(movieList.size()-1).getId()){
                 bufferedWriter.write(",");
@@ -177,10 +177,10 @@ public class Tools {
         bufferedWriter.close();
     }
 
-    public static void saveArtistJSONFile(File movieFile, ArrayList<Artist> movieList) throws IOException {
+    public static void saveArtistJSONFile(File movieFile, ArrayList<Artist> movieList) throws IOException, JSONException {
         FileWriter fileWriter = new FileWriter(movieFile);
         BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-        bufferedWriter.write("[ ");
+        bufferedWriter.write("[");
         for(Artist m:movieList){
             JSONObject jsonMovie = new JSONObject();
             try {
@@ -189,7 +189,7 @@ public class Tools {
             } catch (JSONException e){
                 e.printStackTrace();
             }
-            String stringMovie = jsonMovie.toString();
+            String stringMovie = jsonMovie.toString(2);
             bufferedWriter.write(stringMovie);
             if (m.getId()!= movieList.get(movieList.size()-1).getId()){
                 bufferedWriter.write(",");
@@ -200,7 +200,7 @@ public class Tools {
         bufferedWriter.close();
     }
 
-    public static void saveDirectorJSONFile(File movieFile, ArrayList<Director> movieList) throws IOException {
+    public static void saveDirectorJSONFile(File movieFile, ArrayList<Director> movieList) throws IOException, JSONException {
         FileWriter fileWriter = new FileWriter(movieFile);
         BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
         bufferedWriter.write("[ ");
@@ -212,7 +212,7 @@ public class Tools {
             } catch (JSONException e){
                 e.printStackTrace();
             }
-            String stringMovie = jsonMovie.toString();
+            String stringMovie = jsonMovie.toString(2);
             bufferedWriter.write(stringMovie);
             if (m.getId()!= movieList.get(movieList.size()-1).getId()){
                 bufferedWriter.write(",");
@@ -223,7 +223,7 @@ public class Tools {
         bufferedWriter.close();
     }
 
-    public static void saveGenreJSONFile(File movieFile, ArrayList<Genre> movieList) throws IOException {
+    public static void saveGenreJSONFile(File movieFile, ArrayList<Genre> movieList) throws IOException, JSONException {
         FileWriter fileWriter = new FileWriter(movieFile);
         BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
         bufferedWriter.write("[ ");
@@ -235,7 +235,7 @@ public class Tools {
             } catch (JSONException e){
                 e.printStackTrace();
             }
-            String stringMovie = jsonMovie.toString();
+            String stringMovie = jsonMovie.toString(2);
             bufferedWriter.write(stringMovie);
             if (m.getId()!= movieList.get(movieList.size()-1).getId()){
                 bufferedWriter.write(",");
@@ -244,6 +244,139 @@ public class Tools {
         }
         bufferedWriter.write("]");
         bufferedWriter.close();
+    }
+
+    public static void saveAll(File file, ArrayList<Genre> genreList,ArrayList<Director> directorList,
+                        ArrayList<Artist> arrayList,ArrayList<CD> cdArrayList,
+                        ArrayList<Serie> serieArrayList, ArrayList<Movie> movieList)
+            throws IOException, JSONException {
+        FileWriter fileWriter = new FileWriter(file);
+        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+        bufferedWriter.write("{ ");
+        bufferedWriter.write("\"genre\": \n[ ");
+        for(Genre m:genreList){
+            JSONObject jsonMovie = new JSONObject();
+            try {
+                jsonMovie.put("id", m.getId().toString());
+                jsonMovie.put("name", m.getName().toString());
+            } catch (JSONException e){
+                e.printStackTrace();
+            }
+            String stringMovie = jsonMovie.toString(2);
+            bufferedWriter.write(stringMovie);
+            if (m.getId()!= genreList.get(genreList.size()-1).getId()){
+                bufferedWriter.write(",");
+            }
+
+        }
+        bufferedWriter.write("],");
+
+        bufferedWriter.write("\"director\": \n[ ");
+        for(Director m:directorList){
+            JSONObject jsonMovie = new JSONObject();
+            try {
+                jsonMovie.put("id", m.getId().toString());
+                jsonMovie.put("name", m.getName().toString());
+            } catch (JSONException e){
+                e.printStackTrace();
+            }
+            String stringMovie = jsonMovie.toString(2);
+            bufferedWriter.write(stringMovie);
+            if (m.getId()!= directorList.get(directorList.size()-1).getId()){
+                bufferedWriter.write(",");
+            }
+
+        }
+        bufferedWriter.write("],");
+
+        bufferedWriter.write("\"artist\": \n[");
+        for(Artist m:arrayList){
+            JSONObject jsonMovie = new JSONObject();
+            try {
+                jsonMovie.put("id", m.getId().toString());
+                jsonMovie.put("name", m.getName().toString());
+            } catch (JSONException e){
+                e.printStackTrace();
+            }
+            String stringMovie = jsonMovie.toString(2);
+            bufferedWriter.write(stringMovie);
+            if (m.getId()!= arrayList.get(arrayList.size()-1).getId()){
+                bufferedWriter.write(",");
+            }
+
+        }
+        bufferedWriter.write("],");
+
+        bufferedWriter.write("\"cd\": \n[ ");
+        for(CD m:cdArrayList){
+            JSONObject jsonMovie = new JSONObject();
+            try {
+                jsonMovie.put("id", m.getId().toString());
+                jsonMovie.put("title", m.getTitle().toString());
+                jsonMovie.put("genre", m.getGenre().toString());
+                jsonMovie.put("director", m.getArtist().toString());
+                jsonMovie.put("year", m.getYear());
+                jsonMovie.put("price", m.getPrice());
+            } catch (JSONException e){
+                e.printStackTrace();
+            }
+            String stringMovie = jsonMovie.toString(2);
+            bufferedWriter.write(stringMovie);
+            if (m.getId()!= cdArrayList.get(cdArrayList.size()-1).getId()){
+                bufferedWriter.write(",");
+            }
+
+        }
+        bufferedWriter.write("],");
+
+        bufferedWriter.write("\"serie\": \n[ ");
+        for(Serie m:serieArrayList){
+            JSONObject jsonMovie = new JSONObject();
+            try {
+                jsonMovie.put("id", m.getId());
+                jsonMovie.put("title", m.getTitle().toString());
+                jsonMovie.put("genre", m.getGenre().toString());
+                jsonMovie.put("director", m.getDirector().toString());
+                jsonMovie.put("year", m.getYear());
+                jsonMovie.put("price", m.getPrice());
+            } catch (JSONException e){
+                e.printStackTrace();
+            }
+            String stringMovie = jsonMovie.toString(2);
+            bufferedWriter.write(stringMovie);
+            if (m.getId()!= serieArrayList.get(serieArrayList.size()-1).getId()){
+                bufferedWriter.write(",");
+            }
+
+        }
+        bufferedWriter.write("],");
+
+        bufferedWriter.write("\"movie\": \n[ ");
+        for(Movie m:movieList){
+            JSONObject jsonMovie = new JSONObject();
+            try {
+                jsonMovie.put("id", m.getId());
+                jsonMovie.put("title", m.getTitle().toString());
+                jsonMovie.put("genre", m.getGenre().toString());
+                jsonMovie.put("length", m.getLength());
+                jsonMovie.put("director", m.getDirector().toString());
+                jsonMovie.put("year", m.getYear());
+                jsonMovie.put("price", m.getPrice());
+            } catch (JSONException e){
+                e.printStackTrace();
+            }
+            String stringMovie = jsonMovie.toString(2);
+            bufferedWriter.write(stringMovie);
+            if (m.getId()!= movieList.get(movieList.size()-1).getId()){
+                bufferedWriter.write(",");
+            }
+
+        }
+        bufferedWriter.write("]");
+
+        bufferedWriter.write("}");
+        bufferedWriter.close();
+
     }
     /*
      * Reads JSON format from local file
@@ -310,28 +443,6 @@ public class Tools {
     public static Document downloadXML(String urlString){
         HttpURLConnection conn = null;
         Document doc=null;
-
-        /*
-        try{
-            URL url = new URL(jsonFile);
-            conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(15000);
-            conn.setConnectTimeout(15000);
-            conn.connect();
-            int responseCode = conn.getResponseCode();
-            int i;
-            if (responseCode == HttpURLConnection.HTTP_OK){
-                doc = parseXML(conn.getInputStream());
-            }
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }finally {
-            if(conn != null){
-                conn.disconnect();
-            }
-        }
-        */
         try {
             InputStream input = new URL(urlString).openStream();
             doc = parseXML(input);
@@ -400,56 +511,4 @@ public class Tools {
         }
         return list;
     }
-/*
-    public static JSONArray downloadJSONArray(File localFile) throws IOException, JSONException{
-
-        // Get a non-default Storage bucket
-        //singleton
-        FirebaseStorage storage = FirebaseStorage.getInstance("gs://tepitoflix.appspot.com");
-
-        //create reference to file
-        StorageReference storageRef = storage.getReference();
-        StorageReference jsonFileRef = storageRef.child("movieJson3.json");
-
-        jsonFileRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                // Local temp file has been created
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
-            }
-        });
-
-        JSONArray jsonArray = readJSONFile(localFile);
-        return jsonArray;
-    }
-    /*
-    public static void uploadJSONFile(File localFile) throws IOException, JSONException{
-
-        // Get a non-default Storage bucket
-        //singleton
-        FirebaseStorage storage = FirebaseStorage.getInstance("gs://tepitoflix.appspot.com");
-
-        //create reference to file
-        StorageReference storageRef = storage.getReference();
-        StorageReference jsonFileRef = storageRef.child("movieJson3.json");
-
-        UploadTask uploadTask = jsonFileRef.putFile(Uri.fromFile(localFile));
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle unsuccessful uploads
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                // ...
-            }
-        });
-    }
-*/
 }

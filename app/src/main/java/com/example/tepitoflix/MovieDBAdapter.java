@@ -284,18 +284,21 @@ public class MovieDBAdapter {
         return series;
     }
 
-    public ArrayList<String> getGenresId(){
+    public ArrayList<Genre> getGenres(){
         SQLiteDatabase sqLiteDatabase = movieDBHelper.getWritableDatabase();
         String[] columns = {
-                GenreEntry.ID
-                };
+                ArtistEntry.ID,
+                ArtistEntry.NAME
+        };
         Cursor cursor = sqLiteDatabase.query(GenreEntry.TABLE_NAME, columns,null,
                 null,null,null,null);
-        ArrayList <String> genres = new ArrayList<>();
+        ArrayList <Genre> genres = new ArrayList<>();
 
         while (cursor.moveToNext()){
-            String id=(cursor.getString(cursor.getColumnIndex(GenreEntry.ID)));
-            genres.add(id);
+            Genre genre = new Genre();
+            genre.setId(cursor.getString(cursor.getColumnIndex(GenreEntry.ID)));
+            genre.setName(cursor.getString(cursor.getColumnIndex(ArtistEntry.NAME)));
+            genres.add(genre);
         }
         sqLiteDatabase.close();
         return genres;
@@ -314,6 +317,7 @@ public class MovieDBAdapter {
         while (cursor.moveToNext()){
             Artist artist = new Artist();
             artist.setId(cursor.getString(cursor.getColumnIndex(ArtistEntry.ID)));
+            artist.setName(cursor.getString(cursor.getColumnIndex(ArtistEntry.NAME)));
             artists.add(artist);
         }
         sqLiteDatabase.close();
@@ -333,13 +337,14 @@ public class MovieDBAdapter {
         while (cursor.moveToNext()){
             Director director = new Director();
             director.setId(cursor.getString(cursor.getColumnIndex(DirectorEntry.ID)));
+            director.setName(cursor.getString(cursor.getColumnIndex(DirectorEntry.NAME)));
             directors.add(director);
         }
         sqLiteDatabase.close();
         return directors;
     }
 
-    public Movie searchById(String id){
+    public Media searchById(String id){
         Movie movie = new Movie();
         SQLiteDatabase sqLiteDatabase = movieDBHelper.getWritableDatabase();
         String[] columns = {
@@ -366,6 +371,69 @@ public class MovieDBAdapter {
         return movie;
     }
 
+    public Media getMediaWithId(String id){
+        int i=0;
+        int max=0;
+        Cursor cursor;
+        SQLiteDatabase sqLiteDatabase = movieDBHelper.getWritableDatabase();
+        String[] columns = {
+                MovieEntry.ID,
+                MovieEntry.TITLE,
+                MovieEntry.GENRE,
+                MovieEntry.LENGTH,
+                MovieEntry.DIRECTOR,
+                MovieEntry.YEAR,
+                MovieEntry.PRICE };
+
+        String query = "SELECT * FROM " +MovieEntry.TABLE_NAME+ " WHERE id IS '" + id+"'";
+
+        cursor = sqLiteDatabase.rawQuery(query,null);
+        //media is movie
+        if (cursor.getCount() > 0) {
+            Movie movie = new Movie();
+            cursor.moveToFirst();
+            movie.setId(cursor.getString(cursor.getColumnIndex(MovieEntry.ID)));
+            movie.setTitle(cursor.getString(cursor.getColumnIndex(MovieEntry.TITLE)));
+            movie.setGenre(cursor.getString(cursor.getColumnIndex(MovieEntry.GENRE)));
+            movie.setLength(cursor.getInt(cursor.getColumnIndex(MovieEntry.LENGTH)));
+            movie.setDirector(cursor.getString(cursor.getColumnIndex(MovieEntry.DIRECTOR)));
+            movie.setYear(cursor.getInt(cursor.getColumnIndex(MovieEntry.YEAR)));
+            movie.setPrice(cursor.getDouble(cursor.getColumnIndex(MovieEntry.PRICE)));
+            return (Media) movie;
+        }
+
+        query = "SELECT * FROM "+CDEntry.TABLE_NAME+ " WHERE id IS '" + id+"'";
+        cursor = sqLiteDatabase.rawQuery(query,null);
+        if (cursor.getCount() > 0) {
+            CD cd = new CD();
+            cursor.moveToFirst();
+            cd.setId(cursor.getString(cursor.getColumnIndex(CDEntry.ID)));
+            cd.setTitle(cursor.getString(cursor.getColumnIndex(CDEntry.TITLE)));
+            cd.setGenre(cursor.getString(cursor.getColumnIndex(CDEntry.GENRE)));
+            cd.setArtist(cursor.getString(cursor.getColumnIndex(CDEntry.ARTIST)));
+            cd.setYear(cursor.getInt(cursor.getColumnIndex(CDEntry.YEAR)));
+            cd.setPrice(cursor.getDouble(cursor.getColumnIndex(CDEntry.PRICE)));
+            return (Media) cd;
+        }
+
+        query = "SELECT * FROM "+SerieEntry.TABLE_NAME+ " WHERE id = '" + id+"'";
+        cursor = sqLiteDatabase.rawQuery(query,null);
+        if (cursor.getCount() > 0) {
+            Serie serie = new Serie();
+            cursor.moveToFirst();
+            serie.setId(cursor.getString(cursor.getColumnIndex(SerieEntry.ID)));
+            serie.setTitle(cursor.getString(cursor.getColumnIndex(SerieEntry.TITLE)));
+            serie.setGenre(cursor.getString(cursor.getColumnIndex(SerieEntry.GENRE)));
+            serie.setDirector(cursor.getString(cursor.getColumnIndex(SerieEntry.DIRECTOR)));
+            serie.setYear(cursor.getInt(cursor.getColumnIndex(SerieEntry.YEAR)));
+            serie.setPrice(cursor.getDouble(cursor.getColumnIndex(SerieEntry.PRICE)));
+            return (Media) serie;
+        }
+        sqLiteDatabase.close();
+
+        return new Media();
+    }
+
     public long updateMovie(Movie movie) throws SQLException {
 
         SQLiteDatabase sqLiteDatabase = movieDBHelper.getWritableDatabase();
@@ -374,12 +442,49 @@ public class MovieDBAdapter {
         contentValues.put(MovieEntry.ID, movie.getId()); //12 digit long
         contentValues.put(MovieEntry.TITLE, movie.getTitle().toString()); //String
         contentValues.put(MovieEntry.GENRE, movie.getGenre().toString()); //String
-        contentValues.put(MovieEntry.LENGTH, movie.getLength()); //3 digit number
         contentValues.put(MovieEntry.DIRECTOR, movie.getDirector()); //String
+        contentValues.put(MovieEntry.LENGTH, movie.getLength()); //3 digit number
         contentValues.put(MovieEntry.YEAR, movie.getYear());//int
         contentValues.put(MovieEntry.PRICE, movie.getPrice());// 4 digits 2 decimals
 
-        long id= sqLiteDatabase.update(MovieEntry.TABLE_NAME, contentValues,MovieEntry.ID + " = " +movie.getId(), null);
+        long id= sqLiteDatabase.update(MovieEntry.TABLE_NAME, contentValues,
+                MovieEntry.ID + " = '" +movie.getId()+"'", null);
+        sqLiteDatabase.close();
+        return id;
+    }
+
+    public long updateCD(CD cd) throws SQLException {
+
+        SQLiteDatabase sqLiteDatabase = movieDBHelper.getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(CDEntry.ID, cd.getId()); //12 digit long
+        contentValues.put(CDEntry.TITLE, cd.getTitle().toString()); //String
+        contentValues.put(CDEntry.GENRE, cd.getGenre().toString()); //String
+        contentValues.put(CDEntry.ARTIST, cd.getArtist()); //String
+        contentValues.put(CDEntry.YEAR, cd.getYear());//int
+        contentValues.put(CDEntry.PRICE, cd.getPrice());// 4 digits 2 decimals
+
+        long id= sqLiteDatabase.update(CDEntry.TABLE_NAME, contentValues,CDEntry.ID +
+                " = " +cd.getId(), null);
+        sqLiteDatabase.close();
+        return id;
+    }
+
+    public long updateSerie(Serie serie) throws SQLException {
+
+        SQLiteDatabase sqLiteDatabase = movieDBHelper.getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(SerieEntry.ID, serie.getId()); //12 digit long
+        contentValues.put(SerieEntry.TITLE, serie.getTitle().toString()); //String
+        contentValues.put(SerieEntry.GENRE, serie.getGenre().toString()); //String
+        contentValues.put(SerieEntry.DIRECTOR, serie.getDirector()); //String
+        contentValues.put(SerieEntry.YEAR, serie.getYear());//int
+        contentValues.put(SerieEntry.PRICE, serie.getPrice());// 4 digits 2 decimals
+
+        long id= sqLiteDatabase.update(SerieEntry.TABLE_NAME, contentValues,
+                SerieEntry.ID + " = " +serie.getId(), null);
         sqLiteDatabase.close();
         return id;
     }

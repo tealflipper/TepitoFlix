@@ -33,6 +33,7 @@ public class DeleteMovie extends AppCompatActivity {
 
     public void initViewComp(){
         movieId = (TextInputEditText) findViewById(R.id.movieId);
+
     }
 
     public void deleteMovieId(){
@@ -51,7 +52,6 @@ public class DeleteMovie extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                 }
                 movieId.setText("");
-
             }
         });
     }

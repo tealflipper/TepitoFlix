@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "365417410431",
+    "firebase_url": "https://tepitoflix-4d049.firebaseio.com",
+    "project_id": "tepitoflix-4d049",
+    "storage_bucket": "tepitoflix-4d049.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:365417410431:android:949b4f96db1546d949344a",
+        "android_client_info": {
+          "package_name": "com.example.tepitoflix"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "365417410431-79bsnlig7r0n669o6ahriempqm1ng34l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tepitoflix",
+            "certificate_hash": "e547bc6b2748afd07dee2d3a24a3001eee04ad54"
+          }
+        },
+        {
+          "client_id": "365417410431-mi3400v2766qa3eglfhmd1gnm1t2nrp4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrpiEfpITfl0XVPrTQrJAm6YRGdEHSQfk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "365417410431-mi3400v2766qa3eglfhmd1gnm1t2nrp4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

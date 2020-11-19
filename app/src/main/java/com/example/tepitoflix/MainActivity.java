@@ -1,10 +1,13 @@
 package com.example.tepitoflix;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.SQLException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -43,6 +46,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 1);
+        }
         setContentView(R.layout.activity_main);
 
         //list of movie objects
@@ -67,32 +81,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStop() {
         super.onStop();
+        //create files
+
         File fileM = new File(ContextCompat.getExternalFilesDirs(this,null)[1],
-                "movie.json");
-
-        //get movie list from database
-        //save movie list
-        FileWriter fileWriter = null;
-
-        try {
-            fileWriter = new FileWriter(fileM);
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            bufferedWriter.write("[ ");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+                "Movie.json");
         File fileS = new File(ContextCompat.getExternalFilesDirs(this,null)[1],
-                "serie.json");
+                "Serie.json");
         File fileC = new File(ContextCompat.getExternalFilesDirs(this,null)[1],
-                "cd.json");
+                "CD.json");
         File fileA = new File(ContextCompat.getExternalFilesDirs(this,null)[1],
-                "artist.json");
+                "Artist.json");
         File fileG = new File(ContextCompat.getExternalFilesDirs(this,null)[1],
-                "genre.json");
+                "Genre.json");
         File fileD = new File(ContextCompat.getExternalFilesDirs(this,null)[1],
                 "Director.json");
+        File file = new File(ContextCompat.getExternalFilesDirs(this,null)[1],
+                "Database.txt");
+
+        //get lists from database
+        ArrayList<Movie> movies = movieDBAdapter.getMovies();
+        ArrayList<Serie> series = movieDBAdapter.getSeries();
+        ArrayList<CD> cds = movieDBAdapter.getCD();
+        ArrayList<Artist> artists = movieDBAdapter.getArtists();
+        ArrayList<Genre> genres = movieDBAdapter.getGenres();
+        ArrayList<Director> directors = movieDBAdapter.getDirectors();
+
+        //save lists to files
+        try {
+            Tools.saveToMoviesJSONFile(fileM,movies);
+            Tools.saveSerieJSONFile(fileS,series);
+            Tools.saveCDJSONFile(fileC,cds);
+            Tools.saveArtistJSONFile(fileA,artists);
+            Tools.saveGenreJSONFile(fileG,genres);
+            Tools.saveDirectorJSONFile(fileD,directors);
+            Tools.saveAll(file,genres,directors,artists,cds,series,movies);
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+        Toast.makeText(this, "Archivos DB guardos", Toast.LENGTH_SHORT).show();
     }
+
 
 
     public void initViewComp() {
@@ -110,8 +138,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v){
         Intent goToActivity=null;
-        File file = new File(ContextCompat.getExternalFilesDirs(this,null)[1],
-                "movies.json");
         switch (v.getId()) {
             case R.id.insertMovie:
                 goToActivity = new Intent(v.getContext(), AddMovie.class);

@@ -2,4 +2,6 @@
     <string name="app_name">TepitoFlix</string>
     <string name="id_hint">Id de la pelicula</string>
     <string name="titulo">Titulo</string>
+    <string name="logo">logo</string>
+    <string name="identificador">identificador</string>
 </resources>

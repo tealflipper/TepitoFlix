@@ -74,6 +74,8 @@
         android:layout_marginEnd="133dp"
         android:layout_marginBottom="30dp"
         android:text="Regresar"
+
+        style="?android:buttonBarButtonStyle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
